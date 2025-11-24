@@ -1,0 +1,50 @@
+{% extends 'clinicapp/base.html' %}
+{% load static %}
+
+{% block title %}Mi Agenda de Hoy{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4 text-center text-secondary"><i class="bi bi-calendar-check"></i> Mi Agenda de Hoy</h1>
+    <p class="text-center lead">Hola, **{{ user.get_full_name }}**. Tu rol es **Estilista/Especialista**.</p>
+    
+    <hr>
+
+    <h3>Citas Asignadas para Hoy, {{ "now"|date:"d de F" }}</h3>
+
+    {% if citas_hoy %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Hora</th>
+                    <th>Servicio</th>
+                    <th>Paciente</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cita in citas_hoy %}
+                <tr>
+                    <td>{{ cita.fecha_hora|time:"H:i" }}</td>
+                    <td>{{ cita.servicio.nombre }}</td>
+                    <td>{{ cita.paciente.get_full_name }}</td>
+                    <td><span class="badge bg-{{ cita.estado|lower|cut:'pendiente'|cut:'confirmada'|cut:'cancelada'|cut:'completada'|default:'primary' }}">
+                        {{ cita.estado }}
+                    </span></td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-success">Completar</a>
+                        <a href="#" class="btn btn-sm btn-warning">Iniciar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            ¡Felicidades! No tienes citas asignadas para hoy.
+        </div>
+    {% endif %}
+
+{% endblock %}

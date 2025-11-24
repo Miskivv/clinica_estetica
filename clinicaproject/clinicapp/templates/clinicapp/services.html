@@ -1,0 +1,28 @@
+{% extends "clinicapp/base.html" %}
+
+{% block title %}Nuestros Servicios{% endblock %}
+
+{% block content %}
+    <h1 style="color: #007bff; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 30px;">
+        Catálogo de Servicios Estéticos
+    </h1>
+
+    {% if services %}
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            {% for service in services %}
+            <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); width: calc(33.33% - 20px); box-sizing: border-box;">
+                <h2 style="color: #333; margin-top: 0;">{{ service.name }}</h2>
+                <p style="color: #666;">{{ service.description|slice:":150" }}...</p>
+                {% if service.price %}
+                    <p style="font-weight: bold; color: #28a745;">Precio Estimado: ${{ service.price }}</p>
+                {% endif %}
+                <a href="{% url 'reserve_appointment' %}" class="btn-primary" style="background-color: #f0ad4e;">Reservar este Servicio</a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="background-color: #fff3cd; color: #856404; padding: 20px; border: 1px solid #ffeeba; border-radius: 4px; text-align: center;">
+            <p style="font-size: 1.1em;">Aún no hay servicios disponibles en el sistema.</p>
+        </div>
+    {% endif %}
+{% endblock %}

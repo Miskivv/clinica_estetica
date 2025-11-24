@@ -1,0 +1,49 @@
+{% extends "clinicapp/base.html" %}
+
+{% block title %}Mis Citas Agendadas{% endblock %}
+
+{% block content %}
+    <h2 style="color: #007bff; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 30px;">Mis Citas Agendadas</h2>
+    
+    {% if appointments %}
+        <table style="width: 100%; border-collapse: collapse; background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Servicio</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Especialista</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Fecha y Hora</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ appointment.service.name }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ appointment.specialist.full_name }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ appointment.date|date:"d/m/Y" }} a las {{ appointment.time|time:"H:i" }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">
+                        <span style="font-weight: bold; color: 
+                            {% if appointment.status == 'P' %}orange
+                            {% elif appointment.status == 'C' %}green
+                            {% else %}red
+                            {% endif %}
+                        ;">{{ appointment.get_status_display }}</span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="padding: 20px; text-align: center; background-color: #fff3cd; color: #856404;">
+                        Aún no has agendado ninguna cita.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <div style="background-color: #e9f7fe; padding: 20px; border: 1px solid #cbe6f7; border-radius: 4px; text-align: center; font-size: 1.1em;">
+            Aún no has agendado ninguna cita. <a href="{% url 'reserve_appointment' %}" style="color: #007bff; font-weight: bold;">¡Reserva una ahora!</a>
+        </div>
+    {% endif %}
+
+{% endblock %}

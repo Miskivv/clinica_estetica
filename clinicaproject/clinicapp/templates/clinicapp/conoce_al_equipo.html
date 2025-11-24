@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-center mb-5">Nuestro Equipo Profesional</h2>
+
+<div class="row">
+    {% for persona in equipo %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm text-center">
+            <img src="{{camilaFigueroa.png }}" class="card-img-top" alt="{{ persona.nombre }}">
+            <div class="card-body">
+                <h5>{{ persona.nombre }}</h5>
+                <p class="text-muted">{{ persona.especialidad }}</p>
+                <p>{{ persona.descripcion|truncatewords:20 }}</p>
+
+                <a href="{camilaFigueroa.png}" class="btn btn-outline-primary">
+                    Reservar con {{ persona.nombre }}
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

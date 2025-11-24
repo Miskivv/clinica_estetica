@@ -1,0 +1,29 @@
+{% extends "clinicapp/base.html" %}
+
+{% block title %}Acceso de Pacientes{% endblock %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 40px auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: white; background-color: #28a745; margin: -30px -30px 20px; padding: 15px; border-radius: 8px 8px 0 0;">Acceso de Pacientes</h2>
+        
+        <div style="background-color: #e9f7fe; padding: 15px; border: 1px solid #cbe6f7; border-radius: 4px; margin-bottom: 20px; text-align: center;">
+            Por favor, inicia sesión para ver esta página.
+        </div>
+        
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <label for="id_username" style="display: block; margin-top: 10px;">Usuario</label>
+            <input type="text" name="username" id="id_username" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            
+            <label for="id_password" style="display: block;">Contraseña</label>
+            <input type="password" name="password" id="id_password" required style="width: 100%; padding: 10px; margin-bottom: 30px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            
+            <button type="submit" class="btn-primary" style="width: 100%; font-size: 1.1em; padding: 10px; background-color: #007bff; border: none;">Iniciar Sesión</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9em;">
+            ¿No tienes cuenta? <a href="{% url 'register' %}" style="color: #007bff; font-weight: bold;">Regístrate aquí</a>
+        </p>
+    </div>
+{% endblock %}

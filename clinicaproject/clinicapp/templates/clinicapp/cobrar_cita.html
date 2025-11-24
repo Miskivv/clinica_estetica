@@ -1,0 +1,62 @@
+{% extends "base.html" %} 
+{% block title %}Cobrar Cita #{{ cita.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card p-4 mx-auto" style="max-width: 600px;">
+        <h2 class="card-title text-center text-primary">💰 Proceso de Cobro</h2>
+        <hr>
+
+        <h4>Detalles de la Cita</h4>
+        <ul>
+            <li>**Paciente:** {{ paciente.get_full_name }} ({{ paciente.username }})</li>
+            {% if paciente_perfil.fecha_nacimiento %}
+            <li>**Fecha Nacimiento:** {{ paciente_perfil.fecha_nacimiento|date:"d M Y" }}</li>
+            {% else %}
+            <li><span class="text-danger">⚠️ Paciente sin fecha de nacimiento registrada.</span></li>
+            {% endif %}
+            <li>**Servicio:** {{ cita.servicio.nombre }}</li>
+            <li>**Especialista:** {{ cita.especialista }}</li>
+            <li>**Fecha/Hora:** {{ cita.fecha_inicio|date:"d M Y" }} a las {{ cita.hora_inicio|time:"H:i" }}</li>
+        </ul>
+        <hr>
+
+        <h4>Resumen del Pago</h4>
+        <table class="table table-sm table-borderless">
+            <tr>
+                <td>**Precio Base:**</td>
+                <td class="text-end">**${{ precio_base|floatformat:2 }}**</td>
+            </tr>
+            
+            {% if tasa_descuento > 0 %}
+            <tr class="table-warning">
+                <td>**🎉 Descuento CUMPLEAÑOS ({{ tasa_descuento }}%):**</td>
+                <td class="text-end text-danger fw-bold">- ${{ monto_descuento|floatformat:2 }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>Descuento:</td>
+                <td class="text-end">--</td>
+            </tr>
+            {% endif %}
+            
+            <tr class="table-success fw-bold">
+                <td>**TOTAL A COBRAR:**</td>
+                <td class="text-end">**${{ precio_final|floatformat:2 }}**</td>
+            </tr>
+        </table>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <p class="mt-4 text-center">Confirme la recepción del pago y finalice la cita.</p>
+            <button type="submit" class="btn btn-success w-100">
+                Finalizar Cobro y Completar Cita
+            </button>
+        </form>
+        
+        <div class="text-center mt-3">
+             <a href="{% url 'clinicapp:panel_agenda' %}" class="btn btn-outline-secondary btn-sm">Volver al Panel</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

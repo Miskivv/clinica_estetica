@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Agendar Nueva Cita Estética</h2>
+<p>Por favor, seleccione el servicio, especialista y fecha deseada.</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label class="form-label mt-3">Servicio</label>
+    {{ form.servicio }}
+
+    <label class="form-label mt-3">Especialista</label>
+    {{ form.especialista }}
+
+    <label class="form-label mt-3">Fecha de la Cita</label>
+    {{ form.fecha }}
+
+    <label class="form-label mt-3">Hora Disponible</label>
+    {{ form.hora }}
+
+    <button type="submit" class="btn btn-primary mt-4">Confirmar Reserva</button>
+</form>
+
+{% endblock %}

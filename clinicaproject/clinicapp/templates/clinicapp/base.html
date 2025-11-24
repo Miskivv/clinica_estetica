@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Clínica Estética{% endblock %}</title>
+    <style>
+        /* Estilos básicos (incluidos en el HTML para simplicidad) */
+        body { font-family: sans-serif; margin: 0; padding-top: 50px; background-color: #f4f7f6; }
+        .header { background-color: white; padding: 10px 40px; border-bottom: 2px solid #eee; position: fixed; top: 0; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .header a { margin-left: 20px; text-decoration: none; color: #333; font-weight: bold; }
+        .header .logo { font-size: 1.5em; color: #007bff; font-weight: 900; }
+        .btn-primary { background-color: #007bff; color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; border: none; cursor: pointer; }
+        .content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+        /* Estilos de mensaje */
+        .message-box { background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: .25rem; margin-bottom: 20px; }
+        .error-box { background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: .25rem; margin-bottom: 20px; }
+        /* Estilos para formularios (selects y inputs) */
+        select, input[type="text"], input[type="password"], input[type="email"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <div class="logo">Clínica Estética</div>
+        <nav>
+            <a href="{% url 'services' %}">Servicios</a>
+            <a href="{% url 'reserve_appointment' %}">Reservar Cita</a>
+        </nav>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'my_appointments' %}" style="color: #007bff;">Mis Citas</a> 
+                <a href="{% url 'logout' %}" class="btn-primary" style="background-color: #dc3545;">Salir ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar Sesión</a>
+                <a href="{% url 'register' %}" class="btn-primary">Registrar</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}error-box{% else %}message-box{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer style="text-align: center; padding: 20px; color: #666; font-size: 0.9em; margin-top: 40px;">
+        &copy; 2025 Clínica Estética. Todos los derechos reservados.
+    </footer>
+
+</body>
+</html>
